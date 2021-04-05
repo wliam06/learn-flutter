@@ -1,13 +1,13 @@
 // void main() {
 //   var name = myName();
-  
+
 //   print('my name is $name'); // or ${name}
 //   print('Name count is ${name.length}');
 // }
 
 // String myName() {
 //   return 'William';
-// } 
+// }
 
 // class Person {
 //   String firstName;
@@ -23,7 +23,7 @@
 
 // void main() {
 //   // Instance
-//   var person = new Person('William', 'Gho'); 
+//   var person = new Person('William', 'Gho');
 //   person.showName();
 // }
 
@@ -34,28 +34,61 @@ class Deck {
   Deck() {
     var ranks = ['Ace', 'Two', 'Three', 'Four', 'Five'];
     var suits = ['Diamonds', 'Hearts', 'Clubs', 'Spades'];
-    
+
     for (var suit in suits) {
       for (var rank in ranks) {
-        var card = new Card(suit, rank);
+        var card = new Card(suit: suit, rank: rank);
         cards.add(card);
       }
     }
   }
-  
-  toString() {
-    return 'This is a deck!';
+
+  String toString() {
+    return cards.toString();
+  }
+
+  shuffle() {
+    cards.shuffle();
+  }
+
+  cardWithSuit(String suit) {
+    // Implicit return
+    return cards.where((card) => card.suit == suit);
+  }
+
+  List<Card> deal(int handSize) {
+    // sublist: Pull out and return some
+    var hand = cards.sublist(0, handSize);
+    cards = cards.sublist(handSize);
+
+    return hand;
+  }
+
+  removeCard(String suit, String rank) {
+    return cards
+        .removeWhere((card) => (card.suit == suit) && (card.rank == rank));
   }
 }
 
 class Card {
   String suit;
   String rank;
-  
-  Card(this.suit, this.rank);
+
+  Card({this.suit, this.rank});
+
+  String toString() {
+    return '$rank of $suit';
+  }
 }
 
 void main() {
   var deck = new Deck();
-  print(deck); 
+//   deck.shuffle();
+//   print(deck.cardWithSuit('Diamonds'));
+
+//   print(deck);
+//   print(deck.deal(5));
+//   print(deck);
+  deck.removeCard('Diamonds', 'Ace');
+  print(deck);
 }
